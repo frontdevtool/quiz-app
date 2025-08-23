@@ -7,7 +7,7 @@ const QuestionCard = ({ question }) => {
 
 
   return (
-    <View className=" bg-white rounded-lg w-[80%]" style={styles.card}>
+    <View className=" bg-white rounded-lg h-[350px]  w-[80%]" style={styles.card}>
       <Text> {question.title} </Text>
       <View className="gap-5">
         {question.options.map((option, index) => {
