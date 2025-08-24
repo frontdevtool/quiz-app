@@ -1,24 +1,35 @@
-<SafeAreaView edges={[]} className="flex-1 bg-gray-100">
-  <View className="flex-1 justify-between items-center">
-    
-    {/* الزر فوق */}
-    <Pressable className="bg-red-200 p-2 rounded-lg">
-      <Text>Click me</Text>
-    </Pressable>
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
 
-    {/* الكارت في المنتصف */}
-    <QuestionCard question={question} style={{ width: "90%", alignSelf: "center" }} />
+const Card = ({children , title}) => {
+  return (
+    <View className=' flex w-[90%] '  style={styles.card}>
+      <Text className='text-center'> {title} </Text>
+      {children}
+    </View>
+  )
+}
 
-    {/* الزر تحت */}
-    <Pressable
-      onPress={onNext}
-      className="w-[80%] bg-sky-300 rounded-lg p-2 flex-row justify-end"
-    >
-      <View className="flex-row w-[55%] justify-between">
-        <Text>Next</Text>
-        <FontAwesome name="arrow-circle-right" size={24} color="black" />
-      </View>
-    </Pressable>
+export default Card
 
-  </View>
-</SafeAreaView>
+const styles = StyleSheet.create({
+    card: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    paddingVertical: 30,
+    gap: 20,
+
+    // Shaddow
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+  },
+
+})

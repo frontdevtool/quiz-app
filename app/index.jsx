@@ -7,6 +7,7 @@ import { Button } from "react-native-paper";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import questions from "@/data/questions";
 import { useState } from "react";
+import Card from "@/components/Card";
 export default function index() {
 const [questionIndex, setQuestionIndex] = useState(0);
 const [isSelected, setIsSelected] = useState("");
@@ -25,22 +26,32 @@ console.log("data ", data);
 return (
 <SafeAreaView edges={[]} className=" flex-1    ">
     <View className=" flex-1 justify-between items-center ">
-
         <Pressable className="bg-red-200" style={({ pressed })=> ({
             backgroundColor: pressed ? "red" : "pink",
             padding: 10,
             borderRadius: 8,
             })}
             >
-            {" "}
-            <Text>click me</Text>{" "}
+            <Text>click me</Text>
         </Pressable>
 
-        <View className="gap-3 w-[90%] h-[50%] items-center">
-            <QuestionCard question={question} />
+        {question ? (
+        <View className=" gap-5 w-[90%] h-[50%] items-center">
+            <Card title={question.title}>
+                <QuestionCard question={question} />
+            </Card>
 
-            <Text>20sec</Text>
+            <Text className=" bg-red-200">20sec</Text>
         </View>
+        )
+        : (
+        <Card title={'game over'}>
+            <Text>correct answer</Text>
+            <Text>best score 2/5</Text>
+        </Card>
+        )}
+
+
 
         <Pressable onPress={onNext} className=" w-[80%]   bg-sky-300 rounded-lg px-2 border p-2 flex-row justify-end">
             <View className="flex-row w-[55%]   justify-between ">

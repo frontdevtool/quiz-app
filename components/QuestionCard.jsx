@@ -7,12 +7,12 @@ const QuestionCard = ({ question }) => {
 
 
   return (
-    <View className=" bg-white rounded-lg h-[350px]  w-[80%]" style={styles.card}>
-      <Text> {question.title} </Text>
-      <View className="gap-5">
+    <View className="  rounded-lg flex-1  " style={styles.card}>
+      {/* <Text> {question.title} </Text> */}
+      <View className="gap-3">
         {question.options.map((option, index) => {
             return <AnswerOption key={index} option={option}   onPress={() => setSelected(index)}
-             className={`border p-2 rounded-md ${
+             className={`border p-2  rounded-md ${
                selected === index ? "bg-blue-500" : "bg-white"
             }`}
             />
@@ -26,22 +26,22 @@ const QuestionCard = ({ question }) => {
 export default QuestionCard;
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 20,
-    paddingVertical: 30,
-    gap: 20,
+  // card: {
+  //   backgroundColor: "white",
+  //   borderRadius: 20,
+  //   padding: 20,
+  //   paddingVertical: 30,
+  //   gap: 20,
 
-    // Shaddow
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+  //   // Shaddow
+  //   shadowColor: "#000",
+  //   shadowOffset: {
+  //     width: 0,
+  //     height: 2,
+  //   },
+  //   shadowOpacity: 0.25,
+  //   shadowRadius: 3.84,
 
-    elevation: 5,
-  },
+  //   elevation: 5,
+  // },
 });
