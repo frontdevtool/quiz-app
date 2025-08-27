@@ -7,7 +7,7 @@ const AnswerOption = ({option , onPress , isSelected , className}) => {
   // console.log('selected: ', selected);
   return (
     <Pressable className={className} onPress={onPress} >
-      <Text >{option} ? </Text>
+      <Text className='h-10 w-full ' >{option} ? </Text>
     </Pressable>
   )
 }

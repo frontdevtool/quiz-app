@@ -5,7 +5,12 @@ export const useQuestion = create((set, get) => ({
   questionIndex: 0,
   selected: "",
   score: 0,
-  // currentQuestion: questions[0],
+  question : {},
+
+  currentQuestion: ()=>{
+     const { questionIndex ,question} = get()
+    set({question : questions[questionIndex]})
+  },
 
   nextQ: () => set((state) => ({ questionIndex: state.questionIndex + 1 })),
   prevQ: () => set((state) => ({ questionIndex: state.questionIndex -1 })),
@@ -14,25 +19,20 @@ export const useQuestion = create((set, get) => ({
   setScore: () => set((state) => ({ score: state.score + 1 })),
 
   setSelected: (text) => set(() => ({ selected: text })),
-  currentQuestion: () => questions[get().questionIndex],
+  // currentQuestion: () => questions[get().questionIndex],
   resetQ: () => set(() => ({
     questionIndex: 0,
     selected: "",
     score: 0,
   })),
-
-  // إضافة منتج أو زيادة كميته إذا كان موجود
-  // addToCart: (product) => set((state) => {
-  //   const exists = state.cart.find(item => item.id === product.id);
-  //   if (exists) {
-  //     return {
-  //       cart: state.cart.map(item =>
-  //         item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
-  //       )
-  //     };
-  //   }
-  //   return { cart: [...state.cart, { ...product, quantity: 1 }] };
-  // }),
+  user: null,
+    logout: () => set({ user: null }),
+  login: (username) => set({ user: username }),
+  isLoggedIn: () => {
+    const { user } = get()
+    console.log('==>', user !== null  )
+    return user !== null
+  }
 
   // // حذف منتج بالكامل
   // removeFromCart: (id) => set((state) => ({

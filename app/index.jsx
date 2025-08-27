@@ -9,9 +9,11 @@ import questions from "@/data/questions";
 import { useEffect, useState } from "react";
 import { useQuestion } from "@/store/store";
 import Card from "@/components/Card";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useTimer } from "@/hooks/useTimer";
 export default function index() {
   const [bestScore, setBestScore] = useState(0);
-  const [timer, setTimer] = useState(5);
+  // const [timer, setTimer] = useState(5);
   const totaleQuestions = questions.length;
   const questionIndex = useQuestion((state) => state.questionIndex);
   const setScore = useQuestion((state) => state.setScore);
@@ -21,48 +23,36 @@ export default function index() {
   const resetQ = useQuestion((state) => state.resetQ);
   const isFinished = questionIndex >= totaleQuestions;
   const question = questions[questionIndex];
-  // console.log('question: ', question);
-  // console.log("question: ", question);
-
-  //   const currentQuestion = useQuestion((state) => state.currentQuestion);
-  //   const question = currentQuestion();
-  //   console.log("question: ", question);
+  const { timer, startTimer, clearTimer } = useTimer(5);
 
   useEffect(() => {
-    console.log('==> start load data',   )
-  getData()
-
-  
-  }, [])
-  useEffect(() => {
-    if (isFinished == true && score > bestScore) {
-      setBestScore(score);
-      storeData(score)
-    }
-  }, [isFinished]);
+    getData();
+  }, []);
 
   useEffect(() => {
-    setTimer(5);
-    const interval = setInterval(() => {
-      setTimer((prev) => prev - 1);
-    }, 1000);
+    startTimer();
 
     return () => {
-      clearInterval(interval);
+      clearTimer();
     };
   }, [question]);
 
   useEffect(() => {
-    if (timer < 0) {
-      nextQ();
+    if (isFinished == true && score > bestScore) {
+      setBestScore(score);
+      storeData(score);
     }
-  }, [timer]);
+  }, [isFinished]);
 
-  
-
+  // useEffect(() => {
+  //   if (timer < 0) {
+  //     nextQ();
+  //   }
+  // }, [timer]);
   const onNext = () => {
     if (isFinished) {
-      return resetQ();
+      resetQ();
+      return;
     }
 
     if (selected == question?.correctAnswer) {
@@ -70,31 +60,30 @@ export default function index() {
     }
     nextQ();
   };
+
   const storeData = async (value) => {
     try {
-    console.log('value: ', value);
-    await AsyncStorage.setItem('my-key', value.toString());
-  } catch (e) {
-    // saving error
-  }
-};
-
-const getData = async () => {
-  try {
-    const value = await AsyncStorage.getItem('my-key');
-    console.log('get data: ');
-    if (value !== null) {
-      setBestScore(Number.parseInt(value))
-      // value previously stored
+      console.log("value: ", value);
+      await AsyncStorage.setItem("my-key", value.toString());
+    } catch (e) {
+      // saving error
     }
-  } catch (e) {
-    // error reading value
-  }
-};
+  };
+
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("my-key");
+      if (value !== null) {
+        setBestScore(Number.parseInt(value));
+      }
+    } catch (e) {
+      console.log("error: ", e);
+    }
+  };
 
   return (
     <SafeAreaView edges={[]} className=" flex-1    ">
-      <View className=" flex-1 justify-between items-center ">
+      <View className=" flex-1 justify-around items-center border m-2 ">
         <Pressable
           className="bg-red-200"
           style={({ pressed }) => ({
@@ -107,15 +96,17 @@ const getData = async () => {
         </Pressable>
 
         {question ? (
-          <View className=" gap-5 w-[90%] h-[50%] items-center">
-            <Card title={question.title}>
+          <View className="w-[90%] h-[70%] p-1 bg-slate-300  items-center  justify-center  border-2">
+            <Card title={question.title} className=" w-full h-[90%] justify-center gap-5 bg-sky-500 ">
               <QuestionCard question={question} />
             </Card>
 
-            <Text className=" bg-red-200"> {timer} sec</Text>
+            <Text className=" w-full text-center mt-2">
+              {timer} sec
+            </Text>
           </View>
         ) : (
-          <Card title={"game over"}>
+          <Card title={"game over"} className={'  w-[90%] bg-red-200 '}>
             <Text>
               correct answer {score} /{totaleQuestions}
             </Text>

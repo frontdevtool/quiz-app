@@ -20,12 +20,12 @@ useEffect(() => {
 
 
   return (
-    <View className="  rounded-lg flex-1  " style={styles.card}>
+    <View className="  rounded-lg w-full   " style={styles.card}>
       {/* <Text> {question.title} </Text> */}
       <View className="gap-3">
         {question.options.map((option, index) => {
             return <AnswerOption key={index} option={option}   onPress={() => setSelected(option)}
-             className={`border p-2  rounded-md ${
+             className={`border p-2 w-full rounded-md ${
                selected === option ? "bg-blue-500" : "bg-white"
             }`}
             />
