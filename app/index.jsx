@@ -21,6 +21,7 @@ export default function index() {
   const resetQ = useQuestion((state) => state.resetQ);
   const isFinished = questionIndex >= totaleQuestions;
   const question = questions[questionIndex];
+  // console.log('question: ', question);
   // console.log("question: ", question);
 
   //   const currentQuestion = useQuestion((state) => state.currentQuestion);
@@ -28,8 +29,15 @@ export default function index() {
   //   console.log("question: ", question);
 
   useEffect(() => {
+    console.log('==> start load data',   )
+  getData()
+
+  
+  }, [])
+  useEffect(() => {
     if (isFinished == true && score > bestScore) {
       setBestScore(score);
+      storeData(score)
     }
   }, [isFinished]);
 
@@ -43,11 +51,14 @@ export default function index() {
       clearInterval(interval);
     };
   }, [question]);
+
   useEffect(() => {
     if (timer < 0) {
       nextQ();
     }
   }, [timer]);
+
+  
 
   const onNext = () => {
     if (isFinished) {
@@ -59,6 +70,27 @@ export default function index() {
     }
     nextQ();
   };
+  const storeData = async (value) => {
+    try {
+    console.log('value: ', value);
+    await AsyncStorage.setItem('my-key', value.toString());
+  } catch (e) {
+    // saving error
+  }
+};
+
+const getData = async () => {
+  try {
+    const value = await AsyncStorage.getItem('my-key');
+    console.log('get data: ');
+    if (value !== null) {
+      setBestScore(Number.parseInt(value))
+      // value previously stored
+    }
+  } catch (e) {
+    // error reading value
+  }
+};
 
   return (
     <SafeAreaView edges={[]} className=" flex-1    ">
